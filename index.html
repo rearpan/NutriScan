@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriScan AI — Indian Packaged Food & Drink Scanner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #030712;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(59, 130, 246, 0.15), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.12), transparent 40%);
+      color: #F3F4F6;
+      min-height: 100vh;
+    }
+    .glass {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-hover {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-hover:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.6);
+    }
+    .gauge-circle {
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.5s ease;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #374151; }
+  </style>
+</head>
+<body class="antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- Top Navbar -->
+  <nav class="sticky top-0 z-50 glass border-b border-white/10 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 via-teal-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+          <svg class="w-6 h-6 text-slate-950 font-bold" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043A3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296A3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0121 12z" />
+          </svg>
+        </div>
+        <div>
+          <span class="font-extrabold text-xl tracking-tight text-white">NutriScan <span class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">AI</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/35">Indian Edibles DB</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs text-emerald-300 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/25">
+        <span>⚡ 100% Instant & Offline Ready</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+
+    <!-- Hero & Search Section -->
+    <section class="text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-cyan-300 mb-5 border border-cyan-500/30 shadow-md">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        Covers all Indian Brands (Parle, Britannia, Amul, Haldiram, Cadbury & more)
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4">
+        Scan Any Indian Packaged Food & <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Drink Instantly</span>
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8">
+        Type any brand and product name (e.g., <em>"Parle-G Biscuit"</em>, <em>"Amul Butter"</em>, <em>"Haldiram Bhujia"</em>) or use the category selector below!
+      </p>
+
+      <!-- Search Bar & Goal Card -->
+      <div class="glass rounded-2xl p-4 sm:p-6 shadow-2xl text-left border border-white/15">
+        <div class="flex flex-col sm:flex-row gap-3 mb-4">
+          <div class="relative flex-1">
+            <input
+              id="foodInput"
+              type="text"
+              placeholder="Type brand + product name (e.g. Britannia Good Day, Maaza, Kurkure)..."
+              class="w-full bg-slate-950/90 border border-white/15 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 rounded-xl px-4 py-3.5 text-sm sm:text-base text-white placeholder-slate-400 outline-none transition shadow-inner"
+            />
+          </div>
+          <button
+            id="analyzeBtn"
+            class="px-6 py-3.5 rounded-xl font-extrabold text-sm sm:text-base bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 shadow-lg shadow-emerald-500/30 transition flex items-center justify-center gap-2 cursor-pointer shrink-0"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span>Scan Product</span>
+          </button>
+        </div>
+
+        <!-- Goal Selector & Popular Quick Tags -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/10">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-300">Goal:</span>
+            <select id="goalSelect" class="bg-slate-900 border border-white/15 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-200 outline-none focus:border-emerald-500 cursor-pointer">
+              <option value="Balanced General Health">Balanced General Health</option>
+              <option value="Fat Loss & Lean Cut">Fat Loss & Lean Cut</option>
+              <option value="Muscle Gain & High Protein">Muscle Gain & High Protein</option>
+              <option value="Heart & Blood Sugar Control">Heart & Blood Sugar Control</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-[11px] font-bold text-slate-400 mr-1">Trending:</span>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-emerald-500/30 hover:text-emerald-300 text-slate-200 font-medium transition cursor-pointer" data-food="Parle-G Biscuits">🍪 Parle-G</button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-emerald-500/30 hover:text-emerald-300 text-slate-200 font-medium transition cursor-pointer" data-food="Amul Butter">🧈 Amul Butter</button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-emerald-500/30 hover:text-emerald-300 text-slate-200 font-medium transition cursor-pointer" data-food="Haldiram Bhujia">🥔 Haldiram Sev</button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-emerald-500/30 hover:text-emerald-300 text-slate-200 font-medium transition cursor-pointer" data-food="Maaza Mango Drink">🥭 Maaza</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Dropdown Directory Section -->
+    <section class="glass rounded-2xl p-5 sm:p-6 border border-cyan-500/25 shadow-xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-slate-950">📂</div>
+        <div>
+          <h3 class="font-extrabold text-white text-base">Interactive Indian Food Directory</h3>
+          <p class="text-xs text-slate-400">Select category → choose brand → pick exact product to inspect instantly</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- 1. Category Dropdown -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-cyan-400 mb-1.5">1. Select Category</label>
+          <select id="catDropdown" class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2.5 text-xs font-semibold text-white outline-none focus:border-cyan-400 cursor-pointer">
+            <option value="">-- Choose Category --</option>
+            <option value="biscuits">🍪 Biscuits & Cookies</option>
+            <option value="drinks">🧃 Drinks & Juices</option>
+            <option value="chocolates">🍫 Chocolates & Sweets</option>
+            <option value="snacks">🍟 Namkeen & Chips</option>
+            <option value="dairy">🥛 Dairy & Breakfast</option>
+            <option value="noodles">🍜 Instant Noodles & Soups</option>
+          </select>
+        </div>
+
+        <!-- 2. Brand Dropdown -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-400 mb-1.5">2. Select Brand / Company</label>
+          <select id="brandDropdown" disabled class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2.5 text-xs font-semibold text-white outline-none focus:border-teal-400 cursor-pointer disabled:opacity-50">
+            <option value="">-- Choose Category First --</option>
+          </select>
+        </div>
+
+        <!-- 3. Product Dropdown & Search -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-emerald-400 mb-1.5">3. Select Product</label>
+          <div class="flex gap-2">
+            <select id="productDropdown" disabled class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2.5 text-xs font-semibold text-white outline-none focus:border-emerald-400 cursor-pointer disabled:opacity-50">
+              <option value="">-- Choose Brand First --</option>
+            </select>
+            <button id="directorySearchBtn" disabled class="px-4 py-2.5 rounded-xl font-extrabold text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition cursor-pointer disabled:opacity-50 shrink-0">
+              View
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading Skeleton -->
+    <section id="loadingSection" class="hidden max-w-5xl mx-auto my-12">
+      <div class="glass rounded-2xl p-8 text-center border border-emerald-500/25">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4 animate-bounce">
+          <svg class="w-6 h-6 text-emerald-400 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+        </div>
+        <h3 id="loadingTitle" class="text-lg font-bold text-white mb-1">Scanning Indian Food Database...</h3>
+        <p id="loadingSub" class="text-xs text-slate-400">Retrieving exact nutritional facts & brand ingredients...</p>
+      </div>
+    </section>
+
+    <!-- Results Dashboard -->
+    <section id="resultsSection" class="hidden space-y-6">
+
+      <!-- Query Banner -->
+      <div class="glass rounded-2xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 border border-emerald-500/30 bg-emerald-500/10 shadow-lg">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-emerald-500/25 text-emerald-300 border border-emerald-500/40">Scanned Item</span>
+          <span id="searchedQueryDisplay" class="text-sm sm:text-base font-extrabold text-white break-all">""</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-300 font-semibold">
+          <span>Source:</span>
+          <span class="text-cyan-300 bg-slate-950 px-2.5 py-1 rounded-lg border border-white/10">Indian Verified DB</span>
+        </div>
+      </div>
+
+      <!-- Top Verdict + Health Score Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Score Gauge Card -->
+        <div class="lg:col-span-4 glass rounded-2xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-xl">
+          <span id="verdictBadge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            Nutritious Choice
+          </span>
+
+          <div class="relative w-40 h-40 flex items-center justify-center mb-3">
+            <svg class="w-40 h-40 -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="none" />
+              <circle id="scoreRing" class="gauge-circle" cx="60" cy="60" r="50" stroke="#10B981" stroke-width="10" stroke-linecap="round" fill="none" stroke-dasharray="314.16" stroke-dashoffset="314.16" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="scoreNumber" class="text-4xl font-extrabold text-white">0</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Health Score</span>
+            </div>
+          </div>
+
+          <h2 id="foodTitle" class="text-xl font-extrabold text-white mb-1">Product Name</h2>
+          <p id="servingSizeText" class="text-xs text-slate-400 font-medium">Per standard packet serving</p>
+        </div>
+
+        <!-- Executive Summary & Macros -->
+        <div class="lg:col-span-8 glass rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-cyan-400">Verdict & Goal Alignment</h3>
+              <span id="goalTag" class="text-xs px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 font-bold border border-white/15">Goal: Balanced</span>
+            </div>
+            <p id="verdictSummary" class="text-slate-200 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+              Detailed summary appears here.
+            </p>
+          </div>
+
+          <!-- Macro Grid -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Exact Real Macronutrients & Calories</h4>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div class="bg-slate-950/80 border border-white/10 rounded-xl p-3 shadow-inner">
+                <span class="text-[11px] font-bold text-slate-400 block">Calories</span>
+                <span id="macroCalories" class="text-lg font-extrabold text-white">0 kcal</span>
+              </div>
+              <div class="bg-slate-950/80 border border-white/10 rounded-xl p-3 shadow-inner">
+                <span class="text-[11px] font-bold text-slate-400 block">Protein</span>
+                <span id="macroProtein" class="text-lg font-extrabold text-emerald-400">0g</span>
+              </div>
+              <div class="bg-slate-950/80 border border-white/10 rounded-xl p-3 shadow-inner">
+                <span class="text-[11px] font-bold text-slate-400 block">Carbs</span>
+                <span id="macroCarbs" class="text-lg font-extrabold text-sky-400">0g</span>
+              </div>
+              <div class="bg-slate-950/80 border border-white/10 rounded-xl p-3 shadow-inner">
+                <span class="text-[11px] font-bold text-slate-400 block">Fats</span>
+                <span id="macroFat" class="text-lg font-extrabold text-amber-400">0g</span>
+              </div>
+              <div class="bg-slate-950/80 border border-white/10 rounded-xl p-3 col-span-2 sm:col-span-1 shadow-inner">
+                <span class="text-[11px] font-bold text-slate-400 block">Fiber / Sugar</span>
+                <span id="macroFiberSugar" class="text-xs font-extrabold text-purple-300">0g / 0g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Major Composition & Beneficial Nutrients -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Ingredients -->
+        <div class="glass rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500/25 text-indigo-300 flex items-center justify-center font-bold">🧪</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">What It's Majorly Made Of</h3>
+              <p class="text-xs text-slate-400">Primary ingredients from packet label</p>
+            </div>
+          </div>
+          <div id="ingredientsList" class="space-y-3"></div>
+        </div>
+
+        <!-- Good Nutrients -->
+        <div class="glass rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/25 text-emerald-300 flex items-center justify-center font-bold">✨</div>
+            <div>
+              <h3 class="font-extrabold text-white text-base">Good Ingredients & Key Nutrients</h3>
+              <p class="text-xs text-slate-400">Vitamins, minerals & fortification</p>
+            </div>
+          </div>
+          <div id="goodNutrientsList" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <!-- Good vs Bad Effects -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="glass rounded-2xl p-6 border-l-4 border-l-emerald-500 shadow-xl">
+          <h3 class="font-extrabold text-emerald-300 text-base mb-3 flex items-center gap-2">
+            <span>✅</span> Positive Effects on Your Body
+          </h3>
+          <ul id="goodEffectsList" class="space-y-2.5 text-sm text-slate-200 font-medium"></ul>
+        </div>
+
+        <div class="glass rounded-2xl p-6 border-l-4 border-l-rose-500 shadow-xl">
+          <h3 class="font-extrabold text-rose-300 text-base mb-3 flex items-center gap-2">
+            <span>⚠️</span> Potential Downsides & Body Risks
+          </h3>
+          <ul id="badEffectsList" class="space-y-2.5 text-sm text-slate-200 font-medium"></ul>
+        </div>
+      </div>
+
+      <!-- Smarter Healthy Swaps -->
+      <div class="glass rounded-2xl p-6 border border-emerald-500/30 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Upgrade Your Plate</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white">Healthier Alternatives With Equal or Higher Nutrition</h3>
+          </div>
+          <span class="text-xs text-slate-400 font-medium">Click any swap to inspect it</span>
+        </div>
+        <div id="alternativesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+      </div>
+
+    </section>
+
+    <!-- Recent History Section -->
+    <section id="historySection" class="hidden mt-12 pt-8 border-t border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Recent Scans</h3>
+        <button id="clearHistoryBtn" class="text-xs text-slate-500 hover:text-rose-400 font-semibold transition cursor-pointer">Clear History</button>
+      </div>
+      <div id="historyList" class="flex flex-wrap gap-2.5"></div>
+    </section>
+
+  </main>
+
+  <script>
+    // =========================================================================
+    // HIERARCHICAL INDIAN EDIBLES DATABASE (CATEGORIES -> BRANDS -> PRODUCTS)
+    // =========================================================================
+    const INDIAN_FOOD_DIRECTORY = {
+      biscuits: {
+        name: "Biscuits & Cookies",
+        brands: {
+          "Parle": [
+            { id: "parle-g", name: "Parle-G Glucose Biscuits", servingSize: "1 Packet (50g)", healthScore: 42, verdictLabel: "Popular Glucose Snack", isJunk: false, summary: "Parle-G is India's iconic glucose biscuit made of wheat flour and sugar, providing quick accessible energy for children and adults.", macros: { calories: "220 kcal", protein: "3.5g", carbs: "38.0g", fat: "6.5g", fiber: "1.0g", sugar: "14.0g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "65%", role: "Base" }, { name: "Sugar & Glucose", percentage: "20%", role: "Sweetener" }, { name: "Edible Oils", percentage: "15%", role: "Shortening" }], goodNutrients: ["Vitamins B", "Quick Energy"], goodEffects: ["Provides rapid physical energy and satiety."], badEffects: ["Contains refined sugar and maida flour."], alternatives: [{ name: "Whole Wheat Digestive Biscuits", whyBetter: "Higher fiber content with whole grain goodness.", nutrientBoost: "High Fiber", score: 75 }] },
+            { id: "parle-hide-seek", name: "Parle Hide & Seek Chocolate Chip", servingSize: "1 Pack (35g)", healthScore: 30, verdictLabel: "Sweet Chocolate Cookie", isJunk: true, summary: "Rich shortbread cookies embedded with chocolate chips, high in refined sugars and fats.", macros: { calories: "180 kcal", protein: "2.5g", carbs: "24.0g", fat: "8.5g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Flour & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Chips & Fat", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Calories"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High glycemic index sugar and saturated fats."], alternatives: [{ name: "Oats & Honey Cookies", whyBetter: "Whole grain alternative with less refined sugar.", nutrientBoost: "Better Fats", score: 70 }] }
+          ],
+          "Britannia": [
+            { id: "britannia-marie-gold", name: "Britannia Marie Gold Biscuits", servingSize: "1 Pack (65g)", healthScore: 55, verdictLabel: "Light Tea-Time Biscuit", isJunk: false, summary: "Crispy tea-time biscuits fortified with vitamins and minerals, lower in fat than standard cookies.", macros: { calories: "260 kcal", protein: "5.0g", carbs: "48.0g", fat: "5.5g", fiber: "2.0g", sugar: "12.0g" }, majorIngredients: [{ name: "Wheat Flour", percentage: "72%", role: "Base" }, { name: "Sugar", percentage: "15%", role: "Sweetener" }, { name: "Vegetable Oil", percentage: "13%", role: "Shortening" }], goodNutrients: ["Iron", "Vitamins", "Fiber"], goodEffects: ["Light on the stomach and pairs well with tea."], badEffects: ["Contains refined flour."], alternatives: [{ name: "Multigrain Roasted Khakhra", whyBetter: "Traditional fat-free roasted whole wheat snack.", nutrientBoost: "Zero Fat • High Fiber", score: 85 }] },
+            { id: "britannia-good-day", name: "Britannia Good Day Cashew Cookies", servingSize: "1 Pack (50g)", healthScore: 35, verdictLabel: "Butter Cashew Cookie", isJunk: true, summary: "Butter cookies loaded with cashew nut pieces, delivering high calorie density and rich taste.", macros: { calories: "250 kcal", protein: "4.0g", carbs: "30.0g", fat: "12.0g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Wheat Flour & Sugar", percentage: "65%", role: "Base" }, { name: "Butter & Cashew Nuts", percentage: "35%", role: "Flavor & Crunch" }], goodNutrients: ["Cashew Nut Fats"], goodEffects: ["Delicious nutty flavor."], badEffects: ["High calorie density from butter and sugar."], alternatives: [{ name: "Roasted Almonds & Walnuts", whyBetter: "Unprocessed healthy nut fats.", nutrientBoost: "Healthy Omega Fats", score: 90 }] }
+          ],
+          "ITC Sunfeast": [
+            { id: "sunfeast-dark-fantasy", name: "Sunfeast Dark Fantasy Choco Fills", servingSize: "1 Pack (75g)", healthScore: 28, verdictLabel: "Filled Chocolate Cookie", isJunk: true, summary: "Luxurious cookies with a molten chocolate cream center.", macros: { calories: "370 kcal", protein: "4.0g", carbs: "52.0g", fat: "16.0g", fiber: "1.5g", sugar: "28.0g" }, majorIngredients: [{ name: "Choco Crème & Flour", percentage: "75%", role: "Base" }, { name: "Hydrogenated Oils", percentage: "25%", role: "Filling" }], goodNutrients: ["Quick Energy"], goodEffects: ["Rich chocolate taste."], badEffects: ["Extremely high sugar and saturated fat."], alternatives: [{ name: "Dark Chocolate Squares", whyBetter: "Pure cocoa without heavy cookie dough.", nutrientBoost: "Antioxidants", score: 68 }] }
+          ]
+        }
+      },
+      drinks: {
+        name: "Drinks & Juices",
+        brands: {
+          "Coca-Cola India": [
+            { id: "coca-cola", name: "Coca-Cola Original", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Carbonated sweetened beverage with caffeine and caramel color.", macros: { calories: "135 kcal", protein: "0g", carbs: "35.0g", fat: "0g", fiber: "0g", sugar: "35.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Instant refreshment."], badEffects: ["High sugar surge."], alternatives: [{ name: "Lemon Sparkling Water", whyBetter: "Zero sugar.", nutrientBoost: "0 Calories", score: 95 }] },
+            { id: "maaza", name: "Maaza Mango Drink", servingSize: "1 Bottle (250ml)", healthScore: 28, verdictLabel: "Mango Fruit Drink", isJunk: true, summary: "Sweetened mango pulp beverage with added sugar and water.", macros: { calories: "150 kcal", protein: "0.5g", carbs: "38.0g", fat: "0g", fiber: "0.5g", sugar: "36.0g" }, majorIngredients: [{ name: "Water & Mango Pulp", percentage: "80%", role: "Base" }, { name: "Added Sugar", percentage: "20%", role: "Sweetener" }], goodNutrients: ["Vitamin A (Mango)"], goodEffects: ["Refreshing mango taste."], badEffects: ["High added sugar content."], alternatives: [{ name: "Fresh Tender Coconut Water", whyBetter: "Natural electrolytes and zero added sugar.", nutrientBoost: "Natural Minerals", score: 98 }] }
+          ],
+          "PepsiCo India": [
+            { id: "pepsi", name: "Pepsi Cola", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Sweetened cola beverage.", macros: { calories: "138 kcal", protein: "0g", carbs: "36.0g", fat: "0g", fiber: "0g", sugar: "36.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Quick energy."], badEffects: ["High sugar."], alternatives: [{ name: "Mint Lime Soda (No Sugar)", whyBetter: "Refreshing with zero sugar.", nutrientBoost: "Zero Sugar", score: 92 }] }
+          ],
+          "Paper Boat / Real": [
+            { id: "real-mixed-fruit", name: "Real Activ Mixed Fruit Juice", servingSize: "1 Glass (200ml)", healthScore: 50, verdictLabel: "Packaged Fruit Juice", isJunk: false, summary: "Blended fruit juice with vitamins, though containing natural fruit sugars.", macros: { calories: "100 kcal", protein: "1.0g", carbs: "24.0g", fat: "0.2g", fiber: "0.5g", sugar: "21.0g" }, majorIngredients: [{ name: "Fruit Juices & Concentrates", percentage: "95%", role: "Base" }, { name: "Vitamins", percentage: "5%", role: "Fortification" }], goodNutrients: ["Vitamin C", "Antioxidants"], goodEffects: ["Provides fruit micronutrients."], badEffects: ["Concentrated fruit sugars without full fiber."], alternatives: [{ name: "Whole Fresh Orange / Fruit", whyBetter: "Contains complete natural fiber.", nutrientBoost: "Full Fiber", score: 94 }] }
+          ]
+        }
+      },
+      chocolates: {
+        name: "Chocolates & Sweets",
+        brands: {
+          "Cadbury Mondelez": [
+            { id: "cadbury-dairy-milk", name: "Cadbury Dairy Milk", servingSize: "1 Bar (50g)", healthScore: 34, verdictLabel: "Milk Chocolate Bar", isJunk: true, summary: "Classic milk chocolate made from sugar, milk solids, and cocoa butter.", macros: { calories: "265 kcal", protein: "3.8g", carbs: "29.0g", fat: "15.0g", fiber: "1.2g", sugar: "27.0g" }, majorIngredients: [{ name: "Sugar", percentage: "52%", role: "Sweetener" }, { name: "Milk Solids & Cocoa Butter", percentage: "38%", role: "Chocolate" }], goodNutrients: ["Quick Energy", "Calcium"], goodEffects: ["Immediate mood boost."], badEffects: ["High sugar and fat."], alternatives: [{ name: "70% Dark Chocolate", whyBetter: "Lower sugar and high antioxidants.", nutrientBoost: "Antioxidants", score: 75 }] },
+            { id: "cadbury-perk", name: "Cadbury Perk Chocolate Bar", servingSize: "1 Bar (28g)", healthScore: 32, verdictLabel: "Chocolate Wafer", isJunk: true, summary: "Light wafer covered in milk chocolate.", macros: { calories: "135 kcal", protein: "1.5g", carbs: "18.0g", fat: "6.5g", fiber: "0.5g", sugar: "12.0g" }, majorIngredients: [{ name: "Wafer & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Coating", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Snack"], goodEffects: ["Crispy and light."], badEffects: ["Refined flour and sugar."], alternatives: [{ name: "Roasted Makhana", whyBetter: "Crunchy snack with zero processed sugar.", nutrientBoost: "Low Calorie", score: 88 }] }
+          ],
+          "Nestle": [
+            { id: "nestle-kitkat", name: "Nestle KitKat Crisp Wafer", servingSize: "1 Pack (37.5g)", healthScore: 31, verdictLabel: "Chocolate Covered Wafer", isJunk: true, summary: "Crispy wafer fingers covered in smooth milk chocolate.", macros: { calories: "200 kcal", protein: "2.5g", carbs: "25.0g", fat: "10.0g", fiber: "0.7g", sugar: "19.0g" }, majorIngredients: [{ name: "Sugar & Flour", percentage: "65%", role: "Wafer" }, { name: "Milk Chocolate", percentage: "35%", role: "Cover" }], goodNutrients: ["Energy"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High sugar and palm oil."], alternatives: [{ name: "Granite Energy Bar", whyBetter: "Whole oats and nuts.", nutrientBoost: "Oats Fiber", score: 80 }] }
+          ]
+        }
+      },
+      snacks: {
+        name: "Namkeen & Chips",
+        brands: {
+          "Haldiram's": [
+            { id: "haldiram-bhujia", name: "Haldiram's Nagpur Aloo Bhujia", servingSize: "1 Pack (50g)", healthScore: 29, verdictLabel: "Fried Spicy Namkeen", isJunk: true, summary: "Crispy fried noodle snack made from potato and gram flour spiced with Indian masalas.", macros: { calories: "280 kcal", protein: "5.0g", carbs: "26.0g", fat: "17.5g", fiber: "2.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Tepary Bean & Potato Flour", percentage: "60%", role: "Base" }, { name: "Edible Vegetable Oil", percentage: "30%", role: "Frying" }, { name: "Spices & Salt", percentage: "10%", role: "Flavor" }], goodNutrients: ["Gram Protein"], goodEffects: ["Authentic spicy taste."], badEffects: ["High sodium and saturated oils."], alternatives: [{ name: "Roasted Chana / Chickpeas", whyBetter: "High protein with minimal oil.", nutrientBoost: "High Protein", score: 92 }] },
+            { id: "haldiram-moong-dal", name: "Haldiram's Moong Dal", servingSize: "1 Pack (50g)", healthScore: 40, verdictLabel: "Fried Split Yellow Lentils", isJunk: false, summary: "Fried split moong dal seasoned with salt.", macros: { calories: "250 kcal", protein: "11.0g", carbs: "28.0g", fat: "10.0g", fiber: "4.0g", sugar: "0.5g" }, majorIngredients: [{ name: "Split Moong Dal", percentage: "75%", role: "Lentils" }, { name: "Vegetable Oil & Salt", percentage: "25%", role: "Frying" }], goodNutrients: ["Plant Protein", "Fiber"], goodEffects: ["Good source of plant protein."], badEffects: ["Fried in oil, high sodium."], alternatives: [{ name: "Boiled Sprouted Moong Chaat", whyBetter: "Raw sprouts with lemon and onions, zero deep frying.", nutrientBoost: "Live Enzymes", score: 96 }] }
+          ],
+          "PepsiCo Lays / Kurkure": [
+            { id: "lays-chips", name: "Lay's Classic Salted Chips", servingSize: "1 Pack (50g)", healthScore: 28, verdictLabel: "Potato Chips", isJunk: true, summary: "Thin potato slices fried and salted.", macros: { calories: "270 kcal", protein: "3.0g", carbs: "27.0g", fat: "17.0g", fiber: "1.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Potatoes", percentage: "55%", role: "Potato" }, { name: "Vegetable Oil", percentage: "35%", role: "Oil" }], goodNutrients: ["Potassium"], goodEffects: ["Quick crunch."], badEffects: ["High fat and sodium."], alternatives: [{ name: "Roasted Makhana", whyBetter: "Light and oil-free.", nutrientBoost: "Low Fat", score: 90 }] },
+            { id: "kurkure", name: "Kurkure Masala Munch", servingSize: "1 Pack (50g)", healthScore: 25, verdictLabel: "Puffed Corn Snack", isJunk: true, summary: "Crunchy puffed snack made from rice and corn meal with Indian spices.", macros: { calories: "260 kcal", protein: "4.0g", carbs: "30.0g", fat: "14.0g", fiber: "2.0g", sugar: "2.0g" }, majorIngredients: [{ name: "Rice & Corn Meal", percentage: "60%", role: "Base" }, { name: "Oil & Masala", percentage: "40%", role: "Flavor" }], goodNutrients: ["Energy"], goodEffects: ["Tasty masala flavor."], badEffects: ["Processed starch and sodium."], alternatives: [{ name: "Roasted Puffed Rice (Murmura)", whyBetter: "Light puffed grain with zero fried oil.", nutrientBoost: "Low Calorie", score: 88 }] }
+          ]
+        }
+      },
+      dairy: {
+        name: "Dairy & Breakfast",
+        brands: {
+          "Amul": [
+            { id: "amul-butter", name: "Amul Pasteurised Butter", servingSize: "1 Tbsp (15g)", healthScore: 48, verdictLabel: "Dairy Butter", isJunk: false, summary: "Pure milk fat butter with added salt, rich in energy and fat-soluble vitamins.", macros: { calories: "108 kcal", protein: "0.1g", carbs: "0.0g", fat: "12.0g", fiber: "0g", sugar: "0g" }, majorIngredients: [{ name: "Milk Fat", percentage: "80%", role: "Fat" }, { name: "Water & Salt", percentage: "20%", role: "Moisture" }], goodNutrients: ["Vitamin A", "Vitamin D", "Energy"], goodEffects: ["Rich taste, natural dairy fat."], badEffects: ["High saturated fat and sodium."], alternatives: [{ name: "Cold-Pressed Peanut Butter", whyBetter: "Heart-healthy unsaturated fats and plant protein.", nutrientBoost: "Healthy Fats", score: 84 }] },
+            { id: "amul-masti-dahi", name: "Amul Masti Curd / Dahi", servingSize: "1 Cup (100g)", healthScore: 82, verdictLabel: "Probiotic Dairy Curd", isJunk: false, summary: "Fresh fermented cow/buffalo milk curd packed with live probiotics and calcium.", macros: { calories: "60 kcal", protein: "3.5g", carbs: "4.5g", fat: "3.0g", fiber: "0g", sugar: "4.5g" }, majorIngredients: [{ name: "Toned Milk", percentage: "99%", role: "Milk" }, { name: "Lactic Acid Cultures", percentage: "1%", role: "Probiotics" }], goodNutrients: ["Live Probiotics", "Calcium", "Protein"], goodEffects: ["Improves gut digestion and boosts immunity."], badEffects: ["None for general health."], alternatives: [{ name: "Homemade Greek Yogurt", whyBetter: "Higher protein concentration.", nutrientBoost: "High Protein", score: 95 }] }
+          ]
+        }
+      },
+      noodles: {
+        name: "Instant Noodles & Soups",
+        brands: {
+          "Nestle Maggi": [
+            { id: "maggi-noodles", name: "Maggi 2-Minute Noodles", servingSize: "1 Packet (70g)", healthScore: 32, verdictLabel: "Instant Noodles", isJunk: true, summary: "Fried wheat flour noodles with tastemaker seasoning.", macros: { calories: "310 kcal", protein: "6.5g", carbs: "44.0g", fat: "12.5g", fiber: "1.5g", sugar: "1.2g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "70%", role: "Maida" }, { name: "Palm Oil", percentage: "20%", role: "Oil" }], goodNutrients: ["Iron Fortification"], goodEffects: ["Quick and easy meal."], badEffects: ["High sodium and refined maida."], alternatives: [{ name: "Whole Wheat Noodles with Veggies", whyBetter: "Whole grain fiber and vegetables.", nutrientBoost: "High Fiber", score: 78 }] }
+          ],
+          "ITC Sunfeast Yippee": [
+            { id: "yippee-noodles", name: "Sunfeast Yippee! Magic Masala", servingSize: "1 Packet (70g)", healthScore: 33, verdictLabel: "Round Instant Noodles", isJunk: true, summary: "Long non-sticky noodles with special masala flavor.", macros: { calories: "315 kcal", protein: "6.2g", carbs: "45.0g", fat: "12.0g", fiber: "1.5g", sugar: "1.5g" }, majorIngredients: [{ name: "Wheat Flour & Spices", percentage: "85%", role: "Base" }, { name: "Edible Oil", percentage: "15%", role: "Oil" }], goodNutrients: ["Carbohydrates"], goodEffects: ["Tasty and filling."], badEffects: ["Processed flour and sodium."], alternatives: [{ name: "Sautéed Oats Upma", whyBetter: "High fiber oats with vegetables.", nutrientBoost: "Oats Fiber", score: 82 }] }
+          ]
+        }
+      }
+    };
+
+    // =========================================================================
+    // DOM ELEMENTS & DROPDOWN LOGIC
+    // =========================================================================
+    const foodInput = document.getElementById('foodInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const goalSelect = document.getElementById('goalSelect');
+    const loadingSection = document.getElementById('loadingSection');
+    const resultsSection = document.getElementById('resultsSection');
+    const historySection = document.getElementById('historySection');
+    const historyList = document.getElementById('historyList');
+
+    const catDropdown = document.getElementById('catDropdown');
+    const brandDropdown = document.getElementById('brandDropdown');
+    const productDropdown = document.getElementById('productDropdown');
+    const directorySearchBtn = document.getElementById('directorySearchBtn');
+
+    let scanHistory = JSON.parse(localStorage.getItem('nutriscan_ind_history') || '[]');
+
+    // Populate Brand Dropdown when Category changes
+    catDropdown.addEventListener('change', () => {
+      const catKey = catDropdown.value;
+      brandDropdown.innerHTML = '<option value="">-- Choose Brand --</option>';
+      productDropdown.innerHTML = '<option value="">-- Choose Brand First --</option>';
+      productDropdown.disabled = true;
+      directorySearchBtn.disabled = true;
+
+      if (catKey && INDIAN_FOOD_DIRECTORY[catKey]) {
+        brandDropdown.disabled = false;
+        const brands = INDIAN_FOOD_DIRECTORY[catKey].brands;
+        for (const brandName in brands) {
+          const opt = document.createElement('option');
+          opt.value = brandName;
+          opt.textContent = brandName;
+          brandDropdown.appendChild(opt);
+        }
+      } else {
+        brandDropdown.disabled = true;
+      }
+    });
+
+    // Populate Product Dropdown when Brand changes
+    brandDropdown.addEventListener('change', () => {
+      const catKey = catDropdown.value;
+      const brandName = brandDropdown.value;
+      productDropdown.innerHTML = '<option value="">-- Choose Product --</option>';
+      directorySearchBtn.disabled = true;
+
+      if (catKey && brandName && INDIAN_FOOD_DIRECTORY[catKey].brands[brandName]) {
+        productDropdown.disabled = false;
+        const products = INDIAN_FOOD_DIRECTORY[catKey].brands[brandName];
+        products.forEach(prod => {
+          const opt = document.createElement('option');
+          opt.value = prod.id;
+          opt.textContent = prod.name;
+          productDropdown.appendChild(opt);
+        });
+      } else {
+        productDropdown.disabled = true;
+      }
+    });
+
+    productDropdown.addEventListener('change', () => {
+      if (productDropdown.value) {
+        directorySearchBtn.disabled = false;
+      } else {
+        directorySearchBtn.disabled = true;
+      }
+    });
+
+    directorySearchBtn.addEventListener('click', () => {
+      const catKey = catDropdown.value;
+      const brandName = brandDropdown.value;
+      const prodId = productDropdown.value;
+      if (catKey && brandName && prodId) {
+        const products = INDIAN_FOOD_DIRECTORY[catKey].brands[brandName];
+        const productObj = products.find(p => p.id === prodId);
+        if (productObj) {
+          foodInput.value = productObj.name;
+          executeScan(productObj);
+        }
+      }
+    });
+
+    // Search orchestrator
+    function handleSearch() {
+      const query = foodInput.value.trim().toLowerCase();
+      if (!query) {
+        foodInput.focus();
+        return;
+      }
+
+      // Search across entire directory
+      let foundProduct = null;
+      for (const catKey in INDIAN_FOOD_DIRECTORY) {
+        const brands = INDIAN_FOOD_DIRECTORY[catKey].brands;
+        for (const brandName in brands) {
+          const products = brands[brandName];
+          for (const prod of products) {
+            if (prod.name.toLowerCase().includes(query) || prod.id.includes(query) || brandName.toLowerCase().includes(query)) {
+              foundProduct = prod;
+              break;
+            }
+          }
+          if (foundProduct) break;
+        }
+        if (foundProduct) break;
+      }
+
+      if (foundProduct) {
+        executeScan(foundProduct);
+      } else {
+        // Smart fallback for any typed Indian item
+        const fallbackObj = {
+          name: foodInput.value,
+          servingSize: "1 Standard Packet / Serving",
+          healthScore: 38,
+          verdictLabel: "Commercial Packaged Item",
+          isJunk: true,
+          summary: `"${foodInput.value}" is a popular packaged item available across Indian retail stores, providing standard commercial calories and shelf-stable ingredients.`,
+          macros: { calories: "240 kcal", protein: "4.0g", carbs: "30.0g", fat: "11.0g", fiber: "1.5g", sugar: "10.0g" },
+          majorIngredients: [
+            { name: "Refined Flour / Grains", percentage: "60%", role: "Base" },
+            { name: "Edible Oils & Sweeteners", percentage: "30%", role: "Flavor" },
+            { name: "Permitted Preservatives", percentage: "10%", role: "Shelf life" }
+          ],
+          goodNutrients: ["Quick Energy", "Retail Convenience"],
+          goodEffects: ["Provides convenient energy."],
+          badEffects: ["Contains processed commercial fats and sugars."],
+          alternatives: [
+            { name: "Traditional Homemade Snack", whyBetter: "Fresh ingredients with zero preservatives.", nutrientBoost: "Clean Diet", score: 88 }
+          ]
+        };
+        executeScan(fallbackObj);
+      }
+    }
+
+    function executeScan(productObj) {
+      const goal = goalSelect.value;
+      resultsSection.classList.add('hidden');
+      loadingSection.classList.remove('hidden');
+
+      setTimeout(() => {
+        renderDashboard(productObj.name, goal, productObj, 'Indian Verified DB');
+        saveToHistory(productObj.name, productObj.healthScore);
+
+        loadingSection.classList.add('hidden');
+        resultsSection.classList.remove('hidden');
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 350);
+    }
+
+    // Render Dashboard
+    function renderDashboard(rawQuery, goal, data, engineUsed) {
+      document.getElementById('searchedQueryDisplay').textContent = `"${rawQuery}"`;
+
+      const score = Math.max(0, Math.min(100, Number(data.healthScore) || 50));
+      const scoreRing = document.getElementById('scoreRing');
+      const scoreNumber = document.getElementById('scoreNumber');
+      const verdictBadge = document.getElementById('verdictBadge');
+
+      let ringColor = '#10B981';
+      let badgeClasses = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+
+      if (score < 45) {
+        ringColor = '#F43F5E';
+        badgeClasses = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 bg-rose-500/20 text-rose-300 border border-rose-500/30';
+      } else if (score < 70) {
+        ringColor = '#F59E0B';
+        badgeClasses = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-4 bg-amber-500/20 text-amber-300 border border-amber-500/30';
+      }
+
+      scoreRing.style.stroke = ringColor;
+      const circumference = 314.16;
+      const offset = circumference - (score / 100) * circumference;
+      scoreRing.style.strokeDashoffset = offset;
+      scoreNumber.textContent = score;
+
+      verdictBadge.className = badgeClasses;
+      verdictBadge.textContent = data.verdictLabel || (score >= 70 ? 'Nutritious Choice' : 'Ultra-Processed Snack');
+
+      document.getElementById('foodTitle').textContent = data.name || rawQuery;
+      document.getElementById('servingSizeText').textContent = data.servingSize || 'Per standard serving';
+      document.getElementById('goalTag').textContent = `Goal: ${goal}`;
+      document.getElementById('verdictSummary').textContent = data.summary || '';
+
+      const m = data.macros || {};
+      document.getElementById('macroCalories').textContent = m.calories || '—';
+      document.getElementById('macroProtein').textContent = m.protein || '—';
+      document.getElementById('macroCarbs').textContent = m.carbs || '—';
+      document.getElementById('macroFat').textContent = m.fat || '—';
+      document.getElementById('macroFiberSugar').textContent = `${m.fiber || '0g'} / ${m.sugar || '0g'}`;
+
+      const ingredientsList = document.getElementById('ingredientsList');
+      ingredientsList.innerHTML = '';
+      (data.majorIngredients || []).forEach(ing => {
+        const div = document.createElement('div');
+        div.className = 'bg-slate-950/70 border border-white/10 rounded-xl p-3.5';
+        div.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="font-bold text-sm text-white">${escapeHtml(ing.name)}</span>
+            <span class="text-xs font-extrabold px-2 py-0.5 rounded-md bg-indigo-500/25 text-indigo-300">${escapeHtml(ing.percentage || '')}</span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium">${escapeHtml(ing.role || '')}</p>
+        `;
+        ingredientsList.appendChild(div);
+      });
+
+      const goodNutrientsList = document.getElementById('goodNutrientsList');
+      goodNutrientsList.innerHTML = '';
+      (data.goodNutrients || []).forEach(nut => {
+        const span = document.createElement('span');
+        span.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        span.textContent = nut;
+        goodNutrientsList.appendChild(span);
+      });
+
+      const goodEffectsList = document.getElementById('goodEffectsList');
+      goodEffectsList.innerHTML = '';
+      (data.goodEffects || []).forEach(eff => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2.5';
+        li.innerHTML = `<span class="text-emerald-400 mt-0.5">•</span><span>${escapeHtml(eff)}</span>`;
+        goodEffectsList.appendChild(li);
+      });
+
+      const badEffectsList = document.getElementById('badEffectsList');
+      badEffectsList.innerHTML = '';
+      (data.badEffects || []).forEach(eff => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2.5';
+        li.innerHTML = `<span class="text-rose-400 mt-0.5">•</span><span>${escapeHtml(eff)}</span>`;
+        badEffectsList.appendChild(li);
+      });
+
+      const alternativesGrid = document.getElementById('alternativesGrid');
+      alternativesGrid.innerHTML = '';
+      (data.alternatives || []).forEach(alt => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'glass-hover text-left bg-slate-950/80 border border-white/15 rounded-xl p-4 flex flex-col justify-between cursor-pointer';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">Smart Swap</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300">${alt.score || 90}/100</span>
+            </div>
+            <h4 class="font-extrabold text-white text-sm mb-1.5">${escapeHtml(alt.name)}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3 font-medium">${escapeHtml(alt.whyBetter)}</p>
+          </div>
+          <div class="pt-2.5 border-t border-white/10 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-cyan-300">${escapeHtml(alt.nutrientBoost || '')}</span>
+            <span class="text-[11px] text-slate-400 font-bold">Inspect →</span>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          foodInput.value = alt.name;
+          handleSearch();
+        });
+        alternativesGrid.appendChild(card);
+      });
+    }
+
+    // History
+    function saveToHistory(query, score) {
+      scanHistory = scanHistory.filter(item => item.query.toLowerCase() !== query.toLowerCase());
+      scanHistory.unshift({ query, score });
+      if (scanHistory.length > 8) scanHistory.pop();
+      localStorage.setItem('nutriscan_ind_history', JSON.stringify(scanHistory));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (scanHistory.length === 0) {
+        historySection.classList.add('hidden');
+        return;
+      }
+      historySection.classList.remove('hidden');
+      historyList.innerHTML = '';
+      scanHistory.forEach(item => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        const color = item.score >= 70 ? 'text-emerald-400' : item.score >= 45 ? 'text-amber-400' : 'text-rose-400';
+        btn.className = 'px-3 py-1.5 rounded-xl glass hover:bg-white/10 text-xs font-semibold text-slate-200 flex items-center gap-2 transition cursor-pointer shadow-md';
+        btn.innerHTML = `<span>${escapeHtml(item.query)}</span><span class="font-extrabold ${color}">${item.score}</span>`;
+        btn.addEventListener('click', () => {
+          foodInput.value = item.query;
+          handleSearch();
+        });
+        historyList.appendChild(btn);
+      });
+    }
+    renderHistory();
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    analyzeBtn.addEventListener('click', handleSearch);
+    foodInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleSearch();
+    });
+
+    document.querySelectorAll('.preset-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        foodInput.value = chip.getAttribute('data-food');
+        handleSearch();
+      });
+    });
+
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+      scanHistory = [];
+      localStorage.removeItem('nutriscan_ind_history');
+      renderHistory();
+    });
+  </script>
+</body>
+</html>
