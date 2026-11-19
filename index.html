@@ -59,7 +59,7 @@
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 via-teal-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
           <svg class="w-6 h-6 text-slate-950 font-bold" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043A3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296A3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0121 12z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043A3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296A3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0121 12z" />
           </svg>
         </div>
         <div>
@@ -81,7 +81,7 @@
     <section class="text-center max-w-3xl mx-auto">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-cyan-300 mb-5 border border-cyan-500/30 shadow-md">
         <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-        Covers all Indian Brands (Parle, Britannia, Amul, Haldiram, Cadbury & more)
+        Covers Indian Brands (Parle, Britannia, Amul, Haldiram, Cadbury, Dabur & more)
       </div>
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4">
         Scan Any Indian Packaged Food & <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Drink Instantly</span>
@@ -320,14 +320,14 @@
         </div>
       </div>
 
-      <!-- Smarter Healthy Swaps -->
+      <!-- Smarter Healthy Swaps (Random Fruits Only, No Inspect Action) -->
       <div class="glass rounded-2xl p-6 border border-emerald-500/30 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Upgrade Your Plate</span>
-            <h3 class="text-lg sm:text-xl font-extrabold text-white">Healthier Alternatives With Equal or Higher Nutrition</h3>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white">Fresh Fruit Picks Instead</h3>
           </div>
-          <span class="text-xs text-slate-400 font-medium">Click any swap to inspect it</span>
+          <span class="text-xs text-slate-400 font-medium">Randomly suggested natural fruits</span>
         </div>
         <div id="alternativesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
       </div>
@@ -347,6 +347,33 @@
 
   <script>
     // =========================================================================
+    // RANDOM FRUITS POOL FOR "UPGRADE YOUR PLATE"
+    // =========================================================================
+    const FRUIT_SUGGESTIONS = [
+      { name: "Guava (Amrud)", whyBetter: "Rich in vitamin C and dietary fiber with low glycemic load.", nutrientBoost: "Vitamin C • High Fiber", score: 95 },
+      { name: "Papaya", whyBetter: "Supports digestion with papain enzymes and provides beta-carotene.", nutrientBoost: "Digestive Enzymes • Vitamin A", score: 92 },
+      { name: "Apple", whyBetter: "Crunchy natural snack with pectin fiber and antioxidants.", nutrientBoost: "Pectin Fiber • Antioxidants", score: 91 },
+      { name: "Banana", whyBetter: "Steady natural energy source rich in potassium and vitamin B6.", nutrientBoost: "Potassium • Natural Energy", score: 90 },
+      { name: "Pomegranate (Anar)", whyBetter: "Packed with polyphenols and antioxidants for heart and blood health.", nutrientBoost: "Antioxidants • Iron Support", score: 94 },
+      { name: "Orange (Santra)", whyBetter: "Hydrating citrus fruit with vitamin C and natural flavonoids.", nutrientBoost: "Vitamin C • Hydration", score: 92 },
+      { name: "Kiwi", whyBetter: "High in vitamin C, vitamin K, and fiber for gut comfort.", nutrientBoost: "Vitamin C & K • Gut Friendly", score: 93 },
+      { name: "Watermelon", whyBetter: "High water content and lycopene for light, refreshing hydration.", nutrientBoost: "Hydration • Lycopene", score: 89 },
+      { name: "Muskmelon (Kharbuja)", whyBetter: "Light, cooling fruit high in water, potassium, and vitamin A.", nutrientBoost: "Cooling • Vitamin A", score: 90 },
+      { name: "Pear (Nashpati)", whyBetter: "Gentle on digestion with soluble fiber and steady sweetness.", nutrientBoost: "Soluble Fiber • Light Sweet", score: 91 },
+      { name: "Chikoo (Sapota)", whyBetter: "Naturally sweet energy booster with fiber and tannins.", nutrientBoost: "Natural Energy • Fiber", score: 87 },
+      { name: "Dragon Fruit", whyBetter: "Low-calorie fruit with prebiotic fiber and antioxidants.", nutrientBoost: "Prebiotic Fiber • Low Cal", score: 92 }
+    ];
+
+    function getRandomFruits(count = 3) {
+      const copy = [...FRUIT_SUGGESTIONS];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0, count);
+    }
+
+    // =========================================================================
     // HIERARCHICAL INDIAN EDIBLES DATABASE (CATEGORIES -> BRANDS -> PRODUCTS)
     // =========================================================================
     const INDIAN_FOOD_DIRECTORY = {
@@ -354,15 +381,23 @@
         name: "Biscuits & Cookies",
         brands: {
           "Parle": [
-            { id: "parle-g", name: "Parle-G Glucose Biscuits", servingSize: "1 Packet (50g)", healthScore: 42, verdictLabel: "Popular Glucose Snack", isJunk: false, summary: "Parle-G is India's iconic glucose biscuit made of wheat flour and sugar, providing quick accessible energy for children and adults.", macros: { calories: "220 kcal", protein: "3.5g", carbs: "38.0g", fat: "6.5g", fiber: "1.0g", sugar: "14.0g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "65%", role: "Base" }, { name: "Sugar & Glucose", percentage: "20%", role: "Sweetener" }, { name: "Edible Oils", percentage: "15%", role: "Shortening" }], goodNutrients: ["Vitamins B", "Quick Energy"], goodEffects: ["Provides rapid physical energy and satiety."], badEffects: ["Contains refined sugar and maida flour."], alternatives: [{ name: "Whole Wheat Digestive Biscuits", whyBetter: "Higher fiber content with whole grain goodness.", nutrientBoost: "High Fiber", score: 75 }] },
-            { id: "parle-hide-seek", name: "Parle Hide & Seek Chocolate Chip", servingSize: "1 Pack (35g)", healthScore: 30, verdictLabel: "Sweet Chocolate Cookie", isJunk: true, summary: "Rich shortbread cookies embedded with chocolate chips, high in refined sugars and fats.", macros: { calories: "180 kcal", protein: "2.5g", carbs: "24.0g", fat: "8.5g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Flour & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Chips & Fat", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Calories"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High glycemic index sugar and saturated fats."], alternatives: [{ name: "Oats & Honey Cookies", whyBetter: "Whole grain alternative with less refined sugar.", nutrientBoost: "Better Fats", score: 70 }] }
+            { id: "parle-g", name: "Parle-G Glucose Biscuits", servingSize: "1 Packet (50g)", healthScore: 42, verdictLabel: "Popular Glucose Snack", isJunk: false, summary: "Parle-G is India's iconic glucose biscuit made of wheat flour and sugar, providing quick accessible energy for children and adults.", macros: { calories: "220 kcal", protein: "3.5g", carbs: "38.0g", fat: "6.5g", fiber: "1.0g", sugar: "14.0g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "65%", role: "Base" }, { name: "Sugar & Glucose", percentage: "20%", role: "Sweetener" }, { name: "Edible Oils", percentage: "15%", role: "Shortening" }], goodNutrients: ["Vitamins B", "Quick Energy"], goodEffects: ["Provides rapid physical energy and satiety."], badEffects: ["Contains refined sugar and maida flour."] },
+            { id: "parle-hide-seek", name: "Parle Hide & Seek Chocolate Chip", servingSize: "1 Pack (35g)", healthScore: 30, verdictLabel: "Sweet Chocolate Cookie", isJunk: true, summary: "Rich shortbread cookies embedded with chocolate chips, high in refined sugars and fats.", macros: { calories: "180 kcal", protein: "2.5g", carbs: "24.0g", fat: "8.5g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Flour & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Chips & Fat", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Calories"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High glycemic index sugar and saturated fats."] },
+            { id: "parle-krackjack", name: "Parle Krackjack Sweet & Salty", servingSize: "1 Pack (50g)", healthScore: 44, verdictLabel: "Sweet & Salty Cracker", isJunk: false, summary: "Crisp biscuits balancing sweet sugar notes with salty seasoning.", macros: { calories: "230 kcal", protein: "3.8g", carbs: "36.0g", fat: "8.0g", fiber: "1.2g", sugar: "10.5g" }, majorIngredients: [{ name: "Wheat Flour", percentage: "68%", role: "Base" }, { name: "Sugar, Salt & Oils", percentage: "32%", role: "Sweet-salty flavor" }], goodNutrients: ["Quick Energy"], goodEffects: ["Easy tea-time snack."], badEffects: ["Refined flour, added sugar, and sodium."] },
+            { id: "parle-monaco", name: "Parle Monaco Salted Biscuits", servingSize: "1 Pack (50g)", healthScore: 43, verdictLabel: "Salted Snack Biscuit", isJunk: false, summary: "Light, crispy salted biscuits sprinkled with salt crystals.", macros: { calories: "235 kcal", protein: "4.0g", carbs: "34.0g", fat: "9.0g", fiber: "1.3g", sugar: "3.0g" }, majorIngredients: [{ name: "Wheat Flour", percentage: "68%", role: "Base" }, { name: "Vegetable Oil & Salt", percentage: "32%", role: "Crispiness & salt" }], goodNutrients: ["Carbohydrates"], goodEffects: ["Low sugar compared to sweet biscuits."], badEffects: ["Refined flour and noticeable sodium."] }
           ],
           "Britannia": [
-            { id: "britannia-marie-gold", name: "Britannia Marie Gold Biscuits", servingSize: "1 Pack (65g)", healthScore: 55, verdictLabel: "Light Tea-Time Biscuit", isJunk: false, summary: "Crispy tea-time biscuits fortified with vitamins and minerals, lower in fat than standard cookies.", macros: { calories: "260 kcal", protein: "5.0g", carbs: "48.0g", fat: "5.5g", fiber: "2.0g", sugar: "12.0g" }, majorIngredients: [{ name: "Wheat Flour", percentage: "72%", role: "Base" }, { name: "Sugar", percentage: "15%", role: "Sweetener" }, { name: "Vegetable Oil", percentage: "13%", role: "Shortening" }], goodNutrients: ["Iron", "Vitamins", "Fiber"], goodEffects: ["Light on the stomach and pairs well with tea."], badEffects: ["Contains refined flour."], alternatives: [{ name: "Multigrain Roasted Khakhra", whyBetter: "Traditional fat-free roasted whole wheat snack.", nutrientBoost: "Zero Fat • High Fiber", score: 85 }] },
-            { id: "britannia-good-day", name: "Britannia Good Day Cashew Cookies", servingSize: "1 Pack (50g)", healthScore: 35, verdictLabel: "Butter Cashew Cookie", isJunk: true, summary: "Butter cookies loaded with cashew nut pieces, delivering high calorie density and rich taste.", macros: { calories: "250 kcal", protein: "4.0g", carbs: "30.0g", fat: "12.0g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Wheat Flour & Sugar", percentage: "65%", role: "Base" }, { name: "Butter & Cashew Nuts", percentage: "35%", role: "Flavor & Crunch" }], goodNutrients: ["Cashew Nut Fats"], goodEffects: ["Delicious nutty flavor."], badEffects: ["High calorie density from butter and sugar."], alternatives: [{ name: "Roasted Almonds & Walnuts", whyBetter: "Unprocessed healthy nut fats.", nutrientBoost: "Healthy Omega Fats", score: 90 }] }
+            { id: "britannia-marie-gold", name: "Britannia Marie Gold Biscuits", servingSize: "1 Pack (65g)", healthScore: 55, verdictLabel: "Light Tea-Time Biscuit", isJunk: false, summary: "Crispy tea-time biscuits fortified with vitamins and minerals, lower in fat than standard cookies.", macros: { calories: "260 kcal", protein: "5.0g", carbs: "48.0g", fat: "5.5g", fiber: "2.0g", sugar: "12.0g" }, majorIngredients: [{ name: "Wheat Flour", percentage: "72%", role: "Base" }, { name: "Sugar", percentage: "15%", role: "Sweetener" }, { name: "Vegetable Oil", percentage: "13%", role: "Shortening" }], goodNutrients: ["Iron", "Vitamins", "Fiber"], goodEffects: ["Light on the stomach and pairs well with tea."], badEffects: ["Contains refined flour."] },
+            { id: "britannia-good-day", name: "Britannia Good Day Cashew Cookies", servingSize: "1 Pack (50g)", healthScore: 35, verdictLabel: "Butter Cashew Cookie", isJunk: true, summary: "Butter cookies loaded with cashew nut pieces, delivering high calorie density and rich taste.", macros: { calories: "250 kcal", protein: "4.0g", carbs: "30.0g", fat: "12.0g", fiber: "0.8g", sugar: "11.0g" }, majorIngredients: [{ name: "Refined Wheat Flour & Sugar", percentage: "65%", role: "Base" }, { name: "Butter & Cashew Nuts", percentage: "35%", role: "Flavor & Crunch" }], goodNutrients: ["Cashew Nut Fats"], goodEffects: ["Delicious nutty flavor."], badEffects: ["High calorie density from butter and sugar."] },
+            { id: "britannia-bourbon", name: "Britannia Bourbon Cream Biscuits", servingSize: "1 Pack (60g)", healthScore: 29, verdictLabel: "Cocoa Cream Biscuit", isJunk: true, summary: "Chocolate-flavored biscuits sandwiched with cocoa cream filling.", macros: { calories: "285 kcal", protein: "3.6g", carbs: "42.0g", fat: "11.5g", fiber: "1.4g", sugar: "19.0g" }, majorIngredients: [{ name: "Refined Wheat Flour & Sugar", percentage: "70%", role: "Cookie & cream" }, { name: "Palm Oil & Cocoa", percentage: "30%", role: "Fat & cocoa" }], goodNutrients: ["Quick Calories"], goodEffects: ["Rich cocoa flavor."], badEffects: ["High sugar and palm oil content."] },
+            { id: "britannia-nutrichoice-digestive", name: "Britannia NutriChoice Digestive", servingSize: "1 Pack (50g)", healthScore: 62, verdictLabel: "High-Fiber Digestive Biscuit", isJunk: false, summary: "Whole wheat and bran-rich biscuits designed for higher fiber compared to standard tea biscuits.", macros: { calories: "225 kcal", protein: "4.5g", carbs: "33.0g", fat: "8.5g", fiber: "3.8g", sugar: "7.5g" }, majorIngredients: [{ name: "Whole Wheat & Wheat Bran", percentage: "66%", role: "Fiber base" }, { name: "Vegetable Oil & Sugar", percentage: "34%", role: "Texture & sweetness" }], goodNutrients: ["Dietary Fiber", "Whole Wheat"], goodEffects: ["Better fiber satiety than refined biscuits."], badEffects: ["Still contains added oils and sweeteners."] }
           ],
           "ITC Sunfeast": [
-            { id: "sunfeast-dark-fantasy", name: "Sunfeast Dark Fantasy Choco Fills", servingSize: "1 Pack (75g)", healthScore: 28, verdictLabel: "Filled Chocolate Cookie", isJunk: true, summary: "Luxurious cookies with a molten chocolate cream center.", macros: { calories: "370 kcal", protein: "4.0g", carbs: "52.0g", fat: "16.0g", fiber: "1.5g", sugar: "28.0g" }, majorIngredients: [{ name: "Choco Crème & Flour", percentage: "75%", role: "Base" }, { name: "Hydrogenated Oils", percentage: "25%", role: "Filling" }], goodNutrients: ["Quick Energy"], goodEffects: ["Rich chocolate taste."], badEffects: ["Extremely high sugar and saturated fat."], alternatives: [{ name: "Dark Chocolate Squares", whyBetter: "Pure cocoa without heavy cookie dough.", nutrientBoost: "Antioxidants", score: 68 }] }
+            { id: "sunfeast-dark-fantasy", name: "Sunfeast Dark Fantasy Choco Fills", servingSize: "1 Pack (75g)", healthScore: 28, verdictLabel: "Filled Chocolate Cookie", isJunk: true, summary: "Luxurious cookies with a molten chocolate cream center.", macros: { calories: "370 kcal", protein: "4.0g", carbs: "52.0g", fat: "16.0g", fiber: "1.5g", sugar: "28.0g" }, majorIngredients: [{ name: "Choco Crème & Flour", percentage: "75%", role: "Base" }, { name: "Hydrogenated Oils", percentage: "25%", role: "Filling" }], goodNutrients: ["Quick Energy"], goodEffects: ["Rich chocolate taste."], badEffects: ["Extremely high sugar and saturated fat."] },
+            { id: "sunfeast-mom-magic", name: "Sunfeast Mom's Magic Cashew & Almond", servingSize: "1 Pack (50g)", healthScore: 36, verdictLabel: "Nutty Butter Cookie", isJunk: true, summary: "Crisp cookies made with cashew and almond bits.", macros: { calories: "248 kcal", protein: "4.2g", carbs: "31.0g", fat: "11.8g", fiber: "1.0g", sugar: "10.5g" }, majorIngredients: [{ name: "Wheat Flour & Sugar", percentage: "66%", role: "Base" }, { name: "Cashew, Almond & Oil", percentage: "34%", role: "Nutty richness" }], goodNutrients: ["Nutty Flavor"], goodEffects: ["Satisfying crunch."], badEffects: ["Calorie-dense fats and sugars."] }
+          ],
+          "Unibic": [
+            { id: "unibic-choco-chip", name: "Unibic Choco Chip Cookies", servingSize: "1 Pack (75g)", healthScore: 31, verdictLabel: "Choco Chip Cookie", isJunk: true, summary: "Cookies packed with chocolate chips for a sweet snack break.", macros: { calories: "365 kcal", protein: "4.5g", carbs: "48.0g", fat: "17.0g", fiber: "1.5g", sugar: "20.0g" }, majorIngredients: [{ name: "Wheat Flour & Sugar", percentage: "65%", role: "Cookie dough" }, { name: "Choco Chips & Palm Oil", percentage: "35%", role: "Chips & fat" }], goodNutrients: ["Quick Energy"], goodEffects: ["Generous chocolate chip bite."], badEffects: ["High calorie and sugar load."] }
           ]
         }
       },
@@ -370,14 +405,22 @@
         name: "Drinks & Juices",
         brands: {
           "Coca-Cola India": [
-            { id: "coca-cola", name: "Coca-Cola Original", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Carbonated sweetened beverage with caffeine and caramel color.", macros: { calories: "135 kcal", protein: "0g", carbs: "35.0g", fat: "0g", fiber: "0g", sugar: "35.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Instant refreshment."], badEffects: ["High sugar surge."], alternatives: [{ name: "Lemon Sparkling Water", whyBetter: "Zero sugar.", nutrientBoost: "0 Calories", score: 95 }] },
-            { id: "maaza", name: "Maaza Mango Drink", servingSize: "1 Bottle (250ml)", healthScore: 28, verdictLabel: "Mango Fruit Drink", isJunk: true, summary: "Sweetened mango pulp beverage with added sugar and water.", macros: { calories: "150 kcal", protein: "0.5g", carbs: "38.0g", fat: "0g", fiber: "0.5g", sugar: "36.0g" }, majorIngredients: [{ name: "Water & Mango Pulp", percentage: "80%", role: "Base" }, { name: "Added Sugar", percentage: "20%", role: "Sweetener" }], goodNutrients: ["Vitamin A (Mango)"], goodEffects: ["Refreshing mango taste."], badEffects: ["High added sugar content."], alternatives: [{ name: "Fresh Tender Coconut Water", whyBetter: "Natural electrolytes and zero added sugar.", nutrientBoost: "Natural Minerals", score: 98 }] }
+            { id: "coca-cola", name: "Coca-Cola Original", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Carbonated sweetened beverage with caffeine and caramel color.", macros: { calories: "135 kcal", protein: "0g", carbs: "35.0g", fat: "0g", fiber: "0g", sugar: "35.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Instant refreshment."], badEffects: ["High sugar surge."] },
+            { id: "maaza", name: "Maaza Mango Drink", servingSize: "1 Bottle (250ml)", healthScore: 28, verdictLabel: "Mango Fruit Drink", isJunk: true, summary: "Sweetened mango pulp beverage with added sugar and water.", macros: { calories: "150 kcal", protein: "0.5g", carbs: "38.0g", fat: "0g", fiber: "0.5g", sugar: "36.0g" }, majorIngredients: [{ name: "Water & Mango Pulp", percentage: "80%", role: "Base" }, { name: "Added Sugar", percentage: "20%", role: "Sweetener" }], goodNutrients: ["Vitamin A (Mango)"], goodEffects: ["Refreshing mango taste."], badEffects: ["High added sugar content."] },
+            { id: "sprite", name: "Sprite Lemon-Lime Soda", servingSize: "1 Bottle (300ml)", healthScore: 20, verdictLabel: "Lemon-Lime Soft Drink", isJunk: true, summary: "Clear citrus-flavored carbonated soft drink with added sugar.", macros: { calories: "120 kcal", protein: "0g", carbs: "30.0g", fat: "0g", fiber: "0g", sugar: "30.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base & sweetener" }, { name: "Acidity Regulators", percentage: "1%", role: "Tangy note" }], goodNutrients: ["Refreshment"], goodEffects: ["Crisp citrus fizz."], badEffects: ["High liquid sugar without fiber."] },
+            { id: "thums-up", name: "Thums Up Cola", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Spiced Cola Drink", isJunk: true, summary: "Strong-flavored carbonated cola drink with caffeine and added sugar.", macros: { calories: "135 kcal", protein: "0g", carbs: "34.5g", fat: "0g", fiber: "0g", sugar: "34.5g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }, { name: "Spice Extracts & Caffeine", percentage: "1%", role: "Bold taste" }], goodNutrients: ["Caffeine"], goodEffects: ["Strong fizzy kick."], badEffects: ["High sugar content."] }
           ],
           "PepsiCo India": [
-            { id: "pepsi", name: "Pepsi Cola", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Sweetened cola beverage.", macros: { calories: "138 kcal", protein: "0g", carbs: "36.0g", fat: "0g", fiber: "0g", sugar: "36.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Quick energy."], badEffects: ["High sugar."], alternatives: [{ name: "Mint Lime Soda (No Sugar)", whyBetter: "Refreshing with zero sugar.", nutrientBoost: "Zero Sugar", score: 92 }] }
+            { id: "pepsi", name: "Pepsi Cola", servingSize: "1 Bottle (300ml)", healthScore: 18, verdictLabel: "Carbonated Soft Drink", isJunk: true, summary: "Sweetened cola beverage.", macros: { calories: "138 kcal", protein: "0g", carbs: "36.0g", fat: "0g", fiber: "0g", sugar: "36.0g" }, majorIngredients: [{ name: "Carbonated Water & Sugar", percentage: "99%", role: "Base" }], goodNutrients: ["Caffeine"], goodEffects: ["Quick energy."], badEffects: ["High sugar."] },
+            { id: "slice", name: "Slice Mango Drink", servingSize: "1 Bottle (250ml)", healthScore: 29, verdictLabel: "Mango Beverage", isJunk: true, summary: "Sweetened mango-flavored drink made with mango puree and sugar.", macros: { calories: "145 kcal", protein: "0.4g", carbs: "36.5g", fat: "0g", fiber: "0.4g", sugar: "35.0g" }, majorIngredients: [{ name: "Water, Mango Puree & Sugar", percentage: "99%", role: "Drink base" }], goodNutrients: ["Vitamin A"], goodEffects: ["Sweet mango refreshment."], badEffects: ["High added sugar."] },
+            { id: "7up", name: "7UP Nimbooz / Lemon Drink", servingSize: "1 Bottle (300ml)", healthScore: 22, verdictLabel: "Lemon Carbonated Drink", isJunk: true, summary: "Lemon-flavored fizzy drink with added sugar.", macros: { calories: "125 kcal", protein: "0g", carbs: "31.0g", fat: "0g", fiber: "0g", sugar: "31.0g" }, majorIngredients: [{ name: "Water, Sugar & Lemon Flavor", percentage: "100%", role: "Base" }], goodNutrients: ["Refreshment"], goodEffects: ["Light lemon fizz."], badEffects: ["High added sugar."] }
           ],
-          "Paper Boat / Real": [
-            { id: "real-mixed-fruit", name: "Real Activ Mixed Fruit Juice", servingSize: "1 Glass (200ml)", healthScore: 50, verdictLabel: "Packaged Fruit Juice", isJunk: false, summary: "Blended fruit juice with vitamins, though containing natural fruit sugars.", macros: { calories: "100 kcal", protein: "1.0g", carbs: "24.0g", fat: "0.2g", fiber: "0.5g", sugar: "21.0g" }, majorIngredients: [{ name: "Fruit Juices & Concentrates", percentage: "95%", role: "Base" }, { name: "Vitamins", percentage: "5%", role: "Fortification" }], goodNutrients: ["Vitamin C", "Antioxidants"], goodEffects: ["Provides fruit micronutrients."], badEffects: ["Concentrated fruit sugars without full fiber."], alternatives: [{ name: "Whole Fresh Orange / Fruit", whyBetter: "Contains complete natural fiber.", nutrientBoost: "Full Fiber", score: 94 }] }
+          "Dabur / Real": [
+            { id: "real-mixed-fruit", name: "Real Activ Mixed Fruit Juice", servingSize: "1 Glass (200ml)", healthScore: 50, verdictLabel: "Packaged Fruit Juice", isJunk: false, summary: "Blended fruit juice with vitamins, though containing natural fruit sugars.", macros: { calories: "100 kcal", protein: "1.0g", carbs: "24.0g", fat: "0.2g", fiber: "0.5g", sugar: "21.0g" }, majorIngredients: [{ name: "Fruit Juices & Concentrates", percentage: "95%", role: "Base" }, { name: "Vitamins", percentage: "5%", role: "Fortification" }], goodNutrients: ["Vitamin C", "Antioxidants"], goodEffects: ["Provides fruit micronutrients."], badEffects: ["Concentrated fruit sugars without full fiber."] },
+            { id: "dabur-real-pomegranate", name: "Dabur Real Pomegranate Juice", servingSize: "1 Glass (200ml)", healthScore: 52, verdictLabel: "Fruit Juice Pack", isJunk: false, summary: "Packaged pomegranate juice offering antioxidant compounds and fruit sugars.", macros: { calories: "110 kcal", protein: "0.6g", carbs: "26.0g", fat: "0.1g", fiber: "0.3g", sugar: "23.0g" }, majorIngredients: [{ name: "Pomegranate Juice & Water", percentage: "95%", role: "Base" }, { name: "Added Sugars / Acidity", percentage: "5%", role: "Taste balance" }], goodNutrients: ["Polyphenols"], goodEffects: ["Antioxidant refreshment."], badEffects: ["Lower fiber than whole fruit."] }
+          ],
+          "Paper Boat": [
+            { id: "paper-boat-aamras", name: "Paper Boat Aamras", servingSize: "1 Pouch (250ml)", healthScore: 34, verdictLabel: "Mango Pulp Drink", isJunk: true, summary: "Traditional mango pulp beverage in a convenient pouch.", macros: { calories: "155 kcal", protein: "0.6g", carbs: "38.0g", fat: "0.2g", fiber: "0.6g", sugar: "34.0g" }, majorIngredients: [{ name: "Mango Pulp, Water & Sugar", percentage: "99%", role: "Drink base" }], goodNutrients: ["Vitamin A"], goodEffects: ["Nostalgic mango taste."], badEffects: ["High sugar content."] }
           ]
         }
       },
@@ -385,11 +428,16 @@
         name: "Chocolates & Sweets",
         brands: {
           "Cadbury Mondelez": [
-            { id: "cadbury-dairy-milk", name: "Cadbury Dairy Milk", servingSize: "1 Bar (50g)", healthScore: 34, verdictLabel: "Milk Chocolate Bar", isJunk: true, summary: "Classic milk chocolate made from sugar, milk solids, and cocoa butter.", macros: { calories: "265 kcal", protein: "3.8g", carbs: "29.0g", fat: "15.0g", fiber: "1.2g", sugar: "27.0g" }, majorIngredients: [{ name: "Sugar", percentage: "52%", role: "Sweetener" }, { name: "Milk Solids & Cocoa Butter", percentage: "38%", role: "Chocolate" }], goodNutrients: ["Quick Energy", "Calcium"], goodEffects: ["Immediate mood boost."], badEffects: ["High sugar and fat."], alternatives: [{ name: "70% Dark Chocolate", whyBetter: "Lower sugar and high antioxidants.", nutrientBoost: "Antioxidants", score: 75 }] },
-            { id: "cadbury-perk", name: "Cadbury Perk Chocolate Bar", servingSize: "1 Bar (28g)", healthScore: 32, verdictLabel: "Chocolate Wafer", isJunk: true, summary: "Light wafer covered in milk chocolate.", macros: { calories: "135 kcal", protein: "1.5g", carbs: "18.0g", fat: "6.5g", fiber: "0.5g", sugar: "12.0g" }, majorIngredients: [{ name: "Wafer & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Coating", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Snack"], goodEffects: ["Crispy and light."], badEffects: ["Refined flour and sugar."], alternatives: [{ name: "Roasted Makhana", whyBetter: "Crunchy snack with zero processed sugar.", nutrientBoost: "Low Calorie", score: 88 }] }
+            { id: "cadbury-dairy-milk", name: "Cadbury Dairy Milk", servingSize: "1 Bar (50g)", healthScore: 34, verdictLabel: "Milk Chocolate Bar", isJunk: true, summary: "Classic milk chocolate made from sugar, milk solids, and cocoa butter.", macros: { calories: "265 kcal", protein: "3.8g", carbs: "29.0g", fat: "15.0g", fiber: "1.2g", sugar: "27.0g" }, majorIngredients: [{ name: "Sugar", percentage: "52%", role: "Sweetener" }, { name: "Milk Solids & Cocoa Butter", percentage: "38%", role: "Chocolate" }], goodNutrients: ["Quick Energy", "Calcium"], goodEffects: ["Immediate mood boost."], badEffects: ["High sugar and fat."] },
+            { id: "cadbury-perk", name: "Cadbury Perk Chocolate Bar", servingSize: "1 Bar (28g)", healthScore: 32, verdictLabel: "Chocolate Wafer", isJunk: true, summary: "Light wafer covered in milk chocolate.", macros: { calories: "135 kcal", protein: "1.5g", carbs: "18.0g", fat: "6.5g", fiber: "0.5g", sugar: "12.0g" }, majorIngredients: [{ name: "Wafer & Sugar", percentage: "70%", role: "Base" }, { name: "Chocolate Coating", percentage: "30%", role: "Flavor" }], goodNutrients: ["Quick Snack"], goodEffects: ["Crispy and light."], badEffects: ["Refined flour and sugar."] },
+            { id: "cadbury-5star", name: "Cadbury 5 Star Chocolate Bar", servingSize: "1 Bar (40g)", healthScore: 27, verdictLabel: "Caramel & Nougat Bar", isJunk: true, summary: "Chewy caramel and nougat center coated in milk chocolate.", macros: { calories: "190 kcal", protein: "1.8g", carbs: "28.0g", fat: "7.8g", fiber: "0.4g", sugar: "21.0g" }, majorIngredients: [{ name: "Sugar, Liquid Glucose & Milk", percentage: "75%", role: "Caramel & nougat" }, { name: "Cocoa & Vegetable Fat", percentage: "25%", role: "Coating" }], goodNutrients: ["Quick Energy"], goodEffects: ["Chewy sweet snack."], badEffects: ["High sugar and glucose syrup."] }
           ],
           "Nestle": [
-            { id: "nestle-kitkat", name: "Nestle KitKat Crisp Wafer", servingSize: "1 Pack (37.5g)", healthScore: 31, verdictLabel: "Chocolate Covered Wafer", isJunk: true, summary: "Crispy wafer fingers covered in smooth milk chocolate.", macros: { calories: "200 kcal", protein: "2.5g", carbs: "25.0g", fat: "10.0g", fiber: "0.7g", sugar: "19.0g" }, majorIngredients: [{ name: "Sugar & Flour", percentage: "65%", role: "Wafer" }, { name: "Milk Chocolate", percentage: "35%", role: "Cover" }], goodNutrients: ["Energy"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High sugar and palm oil."], alternatives: [{ name: "Granite Energy Bar", whyBetter: "Whole oats and nuts.", nutrientBoost: "Oats Fiber", score: 80 }] }
+            { id: "nestle-kitkat", name: "Nestle KitKat Crisp Wafer", servingSize: "1 Pack (37.5g)", healthScore: 31, verdictLabel: "Chocolate Covered Wafer", isJunk: true, summary: "Crispy wafer fingers covered in smooth milk chocolate.", macros: { calories: "200 kcal", protein: "2.5g", carbs: "25.0g", fat: "10.0g", fiber: "0.7g", sugar: "19.0g" }, majorIngredients: [{ name: "Sugar & Flour", percentage: "65%", role: "Wafer" }, { name: "Milk Chocolate", percentage: "35%", role: "Cover" }], goodNutrients: ["Energy"], goodEffects: ["Satisfies sweet cravings."], badEffects: ["High sugar and palm oil."] },
+            { id: "nestle-munch", name: "Nestle Munch Wafer Bar", servingSize: "1 Pack (32g)", healthScore: 30, verdictLabel: "Crispy Wafer Snack", isJunk: true, summary: "Crunchy wafer bar coated with chocolate.", macros: { calories: "165 kcal", protein: "2.0g", carbs: "22.0g", fat: "7.5g", fiber: "0.5g", sugar: "14.0g" }, majorIngredients: [{ name: "Refined Flour, Sugar & Oil", percentage: "75%", role: "Wafer & glaze" }, { name: "Cocoa Solids", percentage: "25%", role: "Chocolate" }], goodNutrients: ["Quick Snack"], goodEffects: ["Light crunch."], badEffects: ["Refined carbs and sugar."] }
+          ],
+          "Ferrero": [
+            { id: "ferrero-rocher", name: "Ferrero Rocher (3 Pieces)", servingSize: "3 Chocolates (37.5g)", healthScore: 36, verdictLabel: "Hazelnut Chocolate Treat", isJunk: true, summary: "Whole hazelnut inside a crisp wafer shell with hazelnut cream and milk chocolate.", macros: { calories: "219 kcal", protein: "3.1g", carbs: "16.5g", fat: "15.8g", fiber: "1.2g", sugar: "14.8g" }, majorIngredients: [{ name: "Hazelnuts, Sugar & Cocoa", percentage: "75%", role: "Nut & chocolate" }, { name: "Wafer & Palm Oil", percentage: "25%", role: "Shell" }], goodNutrients: ["Hazelnuts"], goodEffects: ["Rich hazelnut aroma and crunch."], badEffects: ["Energy-dense sugar and fat."] }
           ]
         }
       },
@@ -397,12 +445,17 @@
         name: "Namkeen & Chips",
         brands: {
           "Haldiram's": [
-            { id: "haldiram-bhujia", name: "Haldiram's Nagpur Aloo Bhujia", servingSize: "1 Pack (50g)", healthScore: 29, verdictLabel: "Fried Spicy Namkeen", isJunk: true, summary: "Crispy fried noodle snack made from potato and gram flour spiced with Indian masalas.", macros: { calories: "280 kcal", protein: "5.0g", carbs: "26.0g", fat: "17.5g", fiber: "2.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Tepary Bean & Potato Flour", percentage: "60%", role: "Base" }, { name: "Edible Vegetable Oil", percentage: "30%", role: "Frying" }, { name: "Spices & Salt", percentage: "10%", role: "Flavor" }], goodNutrients: ["Gram Protein"], goodEffects: ["Authentic spicy taste."], badEffects: ["High sodium and saturated oils."], alternatives: [{ name: "Roasted Chana / Chickpeas", whyBetter: "High protein with minimal oil.", nutrientBoost: "High Protein", score: 92 }] },
-            { id: "haldiram-moong-dal", name: "Haldiram's Moong Dal", servingSize: "1 Pack (50g)", healthScore: 40, verdictLabel: "Fried Split Yellow Lentils", isJunk: false, summary: "Fried split moong dal seasoned with salt.", macros: { calories: "250 kcal", protein: "11.0g", carbs: "28.0g", fat: "10.0g", fiber: "4.0g", sugar: "0.5g" }, majorIngredients: [{ name: "Split Moong Dal", percentage: "75%", role: "Lentils" }, { name: "Vegetable Oil & Salt", percentage: "25%", role: "Frying" }], goodNutrients: ["Plant Protein", "Fiber"], goodEffects: ["Good source of plant protein."], badEffects: ["Fried in oil, high sodium."], alternatives: [{ name: "Boiled Sprouted Moong Chaat", whyBetter: "Raw sprouts with lemon and onions, zero deep frying.", nutrientBoost: "Live Enzymes", score: 96 }] }
+            { id: "haldiram-bhujia", name: "Haldiram's Nagpur Aloo Bhujia", servingSize: "1 Pack (50g)", healthScore: 29, verdictLabel: "Fried Spicy Namkeen", isJunk: true, summary: "Crispy fried noodle snack made from potato and gram flour spiced with Indian masalas.", macros: { calories: "280 kcal", protein: "5.0g", carbs: "26.0g", fat: "17.5g", fiber: "2.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Tepary Bean & Potato Flour", percentage: "60%", role: "Base" }, { name: "Edible Vegetable Oil", percentage: "30%", role: "Frying" }, { name: "Spices & Salt", percentage: "10%", role: "Flavor" }], goodNutrients: ["Gram Protein"], goodEffects: ["Authentic spicy taste."], badEffects: ["High sodium and saturated oils."] },
+            { id: "haldiram-moong-dal", name: "Haldiram's Moong Dal", servingSize: "1 Pack (50g)", healthScore: 40, verdictLabel: "Fried Split Yellow Lentils", isJunk: false, summary: "Fried split moong dal seasoned with salt.", macros: { calories: "250 kcal", protein: "11.0g", carbs: "28.0g", fat: "10.0g", fiber: "4.0g", sugar: "0.5g" }, majorIngredients: [{ name: "Split Moong Dal", percentage: "75%", role: "Lentils" }, { name: "Vegetable Oil & Salt", percentage: "25%", role: "Frying" }], goodNutrients: ["Plant Protein", "Fiber"], goodEffects: ["Good source of plant protein."], badEffects: ["Fried in oil, high sodium."] },
+            { id: "haldiram-navratan", name: "Haldiram's Navratan Mixture", servingSize: "1 Pack (50g)", healthScore: 33, verdictLabel: "Mixed Namkeen Snack", isJunk: true, summary: "Savory mix of sev, peanuts, lentils, and dry snack bits.", macros: { calories: "275 kcal", protein: "6.5g", carbs: "25.0g", fat: "16.5g", fiber: "3.0g", sugar: "2.0g" }, majorIngredients: [{ name: "Gram Flour, Peanuts & Lentils", percentage: "65%", role: "Mix base" }, { name: "Edible Oil & Spices", percentage: "35%", role: "Frying & spice" }], goodNutrients: ["Peanut & Lentil Protein"], goodEffects: ["Varied crunchy texture."], badEffects: ["High oil and salt."] }
           ],
           "PepsiCo Lays / Kurkure": [
-            { id: "lays-chips", name: "Lay's Classic Salted Chips", servingSize: "1 Pack (50g)", healthScore: 28, verdictLabel: "Potato Chips", isJunk: true, summary: "Thin potato slices fried and salted.", macros: { calories: "270 kcal", protein: "3.0g", carbs: "27.0g", fat: "17.0g", fiber: "1.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Potatoes", percentage: "55%", role: "Potato" }, { name: "Vegetable Oil", percentage: "35%", role: "Oil" }], goodNutrients: ["Potassium"], goodEffects: ["Quick crunch."], badEffects: ["High fat and sodium."], alternatives: [{ name: "Roasted Makhana", whyBetter: "Light and oil-free.", nutrientBoost: "Low Fat", score: 90 }] },
-            { id: "kurkure", name: "Kurkure Masala Munch", servingSize: "1 Pack (50g)", healthScore: 25, verdictLabel: "Puffed Corn Snack", isJunk: true, summary: "Crunchy puffed snack made from rice and corn meal with Indian spices.", macros: { calories: "260 kcal", protein: "4.0g", carbs: "30.0g", fat: "14.0g", fiber: "2.0g", sugar: "2.0g" }, majorIngredients: [{ name: "Rice & Corn Meal", percentage: "60%", role: "Base" }, { name: "Oil & Masala", percentage: "40%", role: "Flavor" }], goodNutrients: ["Energy"], goodEffects: ["Tasty masala flavor."], badEffects: ["Processed starch and sodium."], alternatives: [{ name: "Roasted Puffed Rice (Murmura)", whyBetter: "Light puffed grain with zero fried oil.", nutrientBoost: "Low Calorie", score: 88 }] }
+            { id: "lays-chips", name: "Lay's Classic Salted Chips", servingSize: "1 Pack (50g)", healthScore: 28, verdictLabel: "Potato Chips", isJunk: true, summary: "Thin potato slices fried and salted.", macros: { calories: "270 kcal", protein: "3.0g", carbs: "27.0g", fat: "17.0g", fiber: "1.5g", sugar: "1.0g" }, majorIngredients: [{ name: "Potatoes", percentage: "55%", role: "Potato" }, { name: "Vegetable Oil", percentage: "35%", role: "Oil" }], goodNutrients: ["Potassium"], goodEffects: ["Quick crunch."], badEffects: ["High fat and sodium."] },
+            { id: "kurkure", name: "Kurkure Masala Munch", servingSize: "1 Pack (50g)", healthScore: 25, verdictLabel: "Puffed Corn Snack", isJunk: true, summary: "Crunchy puffed snack made from rice and corn meal with Indian spices.", macros: { calories: "260 kcal", protein: "4.0g", carbs: "30.0g", fat: "14.0g", fiber: "2.0g", sugar: "2.0g" }, majorIngredients: [{ name: "Rice & Corn Meal", percentage: "60%", role: "Base" }, { name: "Oil & Masala", percentage: "40%", role: "Flavor" }], goodNutrients: ["Energy"], goodEffects: ["Tasty masala flavor."], badEffects: ["Processed starch and sodium."] },
+            { id: "lays-magic-masala", name: "Lay's India's Magic Masala", servingSize: "1 Pack (50g)", healthScore: 27, verdictLabel: "Spiced Potato Chips", isJunk: true, summary: "Crispy potato wafers tossed in tangy Indian masala seasoning.", macros: { calories: "272 kcal", protein: "3.2g", carbs: "27.5g", fat: "16.8g", fiber: "1.5g", sugar: "1.5g" }, majorIngredients: [{ name: "Potatoes & Edible Oil", percentage: "90%", role: "Chips base" }, { name: "Masala Seasoning", percentage: "10%", role: "Spice blend" }], goodNutrients: ["Potassium"], goodEffects: ["Tangy masala flavor."], badEffects: ["Fried oil and added sodium."] }
+          ],
+          "Bikano": [
+            { id: "bikano-bhujia", name: "Bikano Bikaneri Bhujia", servingSize: "1 Pack (50g)", healthScore: 30, verdictLabel: "Traditional Bhujia", isJunk: true, summary: "Moth bean flour noodles fried with spices and salt.", macros: { calories: "278 kcal", protein: "6.0g", carbs: "24.0g", fat: "17.0g", fiber: "2.8g", sugar: "0.8g" }, majorIngredients: [{ name: "Moth Bean Flour & Spices", percentage: "68%", role: "Base" }, { name: "Vegetable Oil & Salt", percentage: "32%", role: "Frying" }], goodNutrients: ["Moth Bean Protein"], goodEffects: ["Classic spiced crunch."], badEffects: ["High fat and salt."] }
           ]
         }
       },
@@ -410,8 +463,12 @@
         name: "Dairy & Breakfast",
         brands: {
           "Amul": [
-            { id: "amul-butter", name: "Amul Pasteurised Butter", servingSize: "1 Tbsp (15g)", healthScore: 48, verdictLabel: "Dairy Butter", isJunk: false, summary: "Pure milk fat butter with added salt, rich in energy and fat-soluble vitamins.", macros: { calories: "108 kcal", protein: "0.1g", carbs: "0.0g", fat: "12.0g", fiber: "0g", sugar: "0g" }, majorIngredients: [{ name: "Milk Fat", percentage: "80%", role: "Fat" }, { name: "Water & Salt", percentage: "20%", role: "Moisture" }], goodNutrients: ["Vitamin A", "Vitamin D", "Energy"], goodEffects: ["Rich taste, natural dairy fat."], badEffects: ["High saturated fat and sodium."], alternatives: [{ name: "Cold-Pressed Peanut Butter", whyBetter: "Heart-healthy unsaturated fats and plant protein.", nutrientBoost: "Healthy Fats", score: 84 }] },
-            { id: "amul-masti-dahi", name: "Amul Masti Curd / Dahi", servingSize: "1 Cup (100g)", healthScore: 82, verdictLabel: "Probiotic Dairy Curd", isJunk: false, summary: "Fresh fermented cow/buffalo milk curd packed with live probiotics and calcium.", macros: { calories: "60 kcal", protein: "3.5g", carbs: "4.5g", fat: "3.0g", fiber: "0g", sugar: "4.5g" }, majorIngredients: [{ name: "Toned Milk", percentage: "99%", role: "Milk" }, { name: "Lactic Acid Cultures", percentage: "1%", role: "Probiotics" }], goodNutrients: ["Live Probiotics", "Calcium", "Protein"], goodEffects: ["Improves gut digestion and boosts immunity."], badEffects: ["None for general health."], alternatives: [{ name: "Homemade Greek Yogurt", whyBetter: "Higher protein concentration.", nutrientBoost: "High Protein", score: 95 }] }
+            { id: "amul-butter", name: "Amul Pasteurised Butter", servingSize: "1 Tbsp (15g)", healthScore: 48, verdictLabel: "Dairy Butter", isJunk: false, summary: "Pure milk fat butter with added salt, rich in energy and fat-soluble vitamins.", macros: { calories: "108 kcal", protein: "0.1g", carbs: "0.0g", fat: "12.0g", fiber: "0g", sugar: "0g" }, majorIngredients: [{ name: "Milk Fat", percentage: "80%", role: "Fat" }, { name: "Water & Salt", percentage: "20%", role: "Moisture" }], goodNutrients: ["Vitamin A", "Vitamin D", "Energy"], goodEffects: ["Rich taste, natural dairy fat."], badEffects: ["High saturated fat and sodium."] },
+            { id: "amul-masti-dahi", name: "Amul Masti Curd / Dahi", servingSize: "1 Cup (100g)", healthScore: 82, verdictLabel: "Probiotic Dairy Curd", isJunk: false, summary: "Fresh fermented cow/buffalo milk curd packed with live probiotics and calcium.", macros: { calories: "60 kcal", protein: "3.5g", carbs: "4.5g", fat: "3.0g", fiber: "0g", sugar: "4.5g" }, majorIngredients: [{ name: "Toned Milk", percentage: "99%", role: "Milk" }, { name: "Lactic Acid Cultures", percentage: "1%", role: "Probiotics" }], goodNutrients: ["Live Probiotics", "Calcium", "Protein"], goodEffects: ["Improves gut digestion and boosts immunity."], badEffects: ["None for general health."] },
+            { id: "amul-paneer", name: "Amul Fresh Malai Paneer", servingSize: "1 Serving (100g)", healthScore: 76, verdictLabel: "Fresh Cottage Cheese", isJunk: false, summary: "Soft fresh paneer made from milk, offering protein and calcium.", macros: { calories: "265 kcal", protein: "18.0g", carbs: "3.5g", fat: "20.0g", fiber: "0g", sugar: "3.5g" }, majorIngredients: [{ name: "Milk & Coagulant", percentage: "100%", role: "Dairy protein & fat" }], goodNutrients: ["Protein", "Calcium", "Phosphorus"], goodEffects: ["Supports muscle maintenance and bone health."], badEffects: ["Higher fat density in full-fat paneer."] }
+          ],
+          "Mother Dairy": [
+            { id: "mother-dairy-curd", name: "Mother Dairy Classic Curd", servingSize: "1 Cup (100g)", healthScore: 80, verdictLabel: "Fermented Curd", isJunk: false, summary: "Creamy curd made from pasteurized milk and starter cultures.", macros: { calories: "62 kcal", protein: "3.2g", carbs: "4.8g", fat: "3.2g", fiber: "0g", sugar: "4.8g" }, majorIngredients: [{ name: "Pasteurized Milk & Cultures", percentage: "100%", role: "Dairy" }], goodNutrients: ["Calcium", "Probiotics"], goodEffects: ["Supports digestion."], badEffects: ["Moderate dairy fat."] }
           ]
         }
       },
@@ -419,10 +476,14 @@
         name: "Instant Noodles & Soups",
         brands: {
           "Nestle Maggi": [
-            { id: "maggi-noodles", name: "Maggi 2-Minute Noodles", servingSize: "1 Packet (70g)", healthScore: 32, verdictLabel: "Instant Noodles", isJunk: true, summary: "Fried wheat flour noodles with tastemaker seasoning.", macros: { calories: "310 kcal", protein: "6.5g", carbs: "44.0g", fat: "12.5g", fiber: "1.5g", sugar: "1.2g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "70%", role: "Maida" }, { name: "Palm Oil", percentage: "20%", role: "Oil" }], goodNutrients: ["Iron Fortification"], goodEffects: ["Quick and easy meal."], badEffects: ["High sodium and refined maida."], alternatives: [{ name: "Whole Wheat Noodles with Veggies", whyBetter: "Whole grain fiber and vegetables.", nutrientBoost: "High Fiber", score: 78 }] }
+            { id: "maggi-noodles", name: "Maggi 2-Minute Noodles", servingSize: "1 Packet (70g)", healthScore: 32, verdictLabel: "Instant Noodles", isJunk: true, summary: "Fried wheat flour noodles with tastemaker seasoning.", macros: { calories: "310 kcal", protein: "6.5g", carbs: "44.0g", fat: "12.5g", fiber: "1.5g", sugar: "1.2g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "70%", role: "Maida" }, { name: "Palm Oil", percentage: "20%", role: "Oil" }], goodNutrients: ["Iron Fortification"], goodEffects: ["Quick and easy meal."], badEffects: ["High sodium and refined maida."] },
+            { id: "maggi-atta-noodles", name: "Maggi Nutri-licious Atta Noodles", servingSize: "1 Packet (70g)", healthScore: 46, verdictLabel: "Atta Instant Noodles", isJunk: false, summary: "Noodles made with whole wheat atta and seasoning.", macros: { calories: "295 kcal", protein: "7.5g", carbs: "45.0g", fat: "9.5g", fiber: "3.2g", sugar: "1.5g" }, majorIngredients: [{ name: "Whole Wheat Atta", percentage: "72%", role: "Whole grain base" }, { name: "Seasoning & Oil", percentage: "28%", role: "Taste & oil" }], goodNutrients: ["Whole Wheat Fiber", "Iron"], goodEffects: ["Slightly higher fiber than maida noodles."], badEffects: ["Still contains added sodium and oil."] }
           ],
           "ITC Sunfeast Yippee": [
-            { id: "yippee-noodles", name: "Sunfeast Yippee! Magic Masala", servingSize: "1 Packet (70g)", healthScore: 33, verdictLabel: "Round Instant Noodles", isJunk: true, summary: "Long non-sticky noodles with special masala flavor.", macros: { calories: "315 kcal", protein: "6.2g", carbs: "45.0g", fat: "12.0g", fiber: "1.5g", sugar: "1.5g" }, majorIngredients: [{ name: "Wheat Flour & Spices", percentage: "85%", role: "Base" }, { name: "Edible Oil", percentage: "15%", role: "Oil" }], goodNutrients: ["Carbohydrates"], goodEffects: ["Tasty and filling."], badEffects: ["Processed flour and sodium."], alternatives: [{ name: "Sautéed Oats Upma", whyBetter: "High fiber oats with vegetables.", nutrientBoost: "Oats Fiber", score: 82 }] }
+            { id: "yippee-noodles", name: "Sunfeast Yippee! Magic Masala", servingSize: "1 Packet (70g)", healthScore: 33, verdictLabel: "Round Instant Noodles", isJunk: true, summary: "Long non-sticky noodles with special masala flavor.", macros: { calories: "315 kcal", protein: "6.2g", carbs: "45.0g", fat: "12.0g", fiber: "1.5g", sugar: "1.5g" }, majorIngredients: [{ name: "Wheat Flour & Spices", percentage: "85%", role: "Base" }, { name: "Edible Oil", percentage: "15%", role: "Oil" }], goodNutrients: ["Carbohydrates"], goodEffects: ["Tasty and filling."], badEffects: ["Processed flour and sodium."] }
+          ],
+          "Ching's Secret": [
+            { id: "chings-hakka-noodles", name: "Ching's Secret Hakka Noodles", servingSize: "1 Serving (75g)", healthScore: 38, verdictLabel: "Hakka Noodles", isJunk: true, summary: "Dried wheat noodles styled for Indo-Chinese stir-fry dishes.", macros: { calories: "265 kcal", protein: "7.8g", carbs: "52.0g", fat: "2.5g", fiber: "2.0g", sugar: "1.0g" }, majorIngredients: [{ name: "Refined Wheat Flour", percentage: "92%", role: "Noodle base" }, { name: "Salt & Acidity Regulators", percentage: "8%", role: "Texture" }], goodNutrients: ["Carbohydrates", "Protein"], goodEffects: ["Low oil before cooking."], badEffects: ["Refined flour base."] }
           ]
         }
       }
@@ -446,7 +507,6 @@
 
     let scanHistory = JSON.parse(localStorage.getItem('nutriscan_ind_history') || '[]');
 
-    // Populate Brand Dropdown when Category changes
     catDropdown.addEventListener('change', () => {
       const catKey = catDropdown.value;
       brandDropdown.innerHTML = '<option value="">-- Choose Brand --</option>';
@@ -468,7 +528,6 @@
       }
     });
 
-    // Populate Product Dropdown when Brand changes
     brandDropdown.addEventListener('change', () => {
       const catKey = catDropdown.value;
       const brandName = brandDropdown.value;
@@ -490,11 +549,7 @@
     });
 
     productDropdown.addEventListener('change', () => {
-      if (productDropdown.value) {
-        directorySearchBtn.disabled = false;
-      } else {
-        directorySearchBtn.disabled = true;
-      }
+      directorySearchBtn.disabled = !productDropdown.value;
     });
 
     directorySearchBtn.addEventListener('click', () => {
@@ -511,7 +566,6 @@
       }
     });
 
-    // Search orchestrator
     function handleSearch() {
       const query = foodInput.value.trim().toLowerCase();
       if (!query) {
@@ -519,7 +573,6 @@
         return;
       }
 
-      // Search across entire directory
       let foundProduct = null;
       for (const catKey in INDIAN_FOOD_DIRECTORY) {
         const brands = INDIAN_FOOD_DIRECTORY[catKey].brands;
@@ -539,7 +592,6 @@
       if (foundProduct) {
         executeScan(foundProduct);
       } else {
-        // Smart fallback for any typed Indian item
         const fallbackObj = {
           name: foodInput.value,
           servingSize: "1 Standard Packet / Serving",
@@ -555,10 +607,7 @@
           ],
           goodNutrients: ["Quick Energy", "Retail Convenience"],
           goodEffects: ["Provides convenient energy."],
-          badEffects: ["Contains processed commercial fats and sugars."],
-          alternatives: [
-            { name: "Traditional Homemade Snack", whyBetter: "Fresh ingredients with zero preservatives.", nutrientBoost: "Clean Diet", score: 88 }
-          ]
+          badEffects: ["Contains processed commercial fats and sugars."]
         };
         executeScan(fallbackObj);
       }
@@ -570,7 +619,8 @@
       loadingSection.classList.remove('hidden');
 
       setTimeout(() => {
-        renderDashboard(productObj.name, goal, productObj, 'Indian Verified DB');
+        const randomFruits = getRandomFruits(3);
+        renderDashboard(productObj.name, goal, { ...productObj, alternatives: randomFruits }, 'Indian Verified DB');
         saveToHistory(productObj.name, productObj.healthScore);
 
         loadingSection.classList.add('hidden');
@@ -579,7 +629,6 @@
       }, 350);
     }
 
-    // Render Dashboard
     function renderDashboard(rawQuery, goal, data, engineUsed) {
       document.getElementById('searchedQueryDisplay').textContent = `"${rawQuery}"`;
 
@@ -664,33 +713,26 @@
 
       const alternativesGrid = document.getElementById('alternativesGrid');
       alternativesGrid.innerHTML = '';
-      (data.alternatives || []).forEach(alt => {
-        const card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'glass-hover text-left bg-slate-950/80 border border-white/15 rounded-xl p-4 flex flex-col justify-between cursor-pointer';
+      (data.alternatives || []).forEach(fruit => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-950/80 border border-white/15 rounded-xl p-4 flex flex-col justify-between';
         card.innerHTML = `
           <div>
             <div class="flex items-center justify-between gap-2 mb-2">
-              <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">Smart Swap</span>
-              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300">${alt.score || 90}/100</span>
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">Fruit Pick</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300">${fruit.score || 90}/100</span>
             </div>
-            <h4 class="font-extrabold text-white text-sm mb-1.5">${escapeHtml(alt.name)}</h4>
-            <p class="text-xs text-slate-300 leading-relaxed mb-3 font-medium">${escapeHtml(alt.whyBetter)}</p>
+            <h4 class="font-extrabold text-white text-base mb-1.5">${escapeHtml(fruit.name)}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3 font-medium">${escapeHtml(fruit.whyBetter)}</p>
           </div>
-          <div class="pt-2.5 border-t border-white/10 flex items-center justify-between">
-            <span class="text-[11px] font-bold text-cyan-300">${escapeHtml(alt.nutrientBoost || '')}</span>
-            <span class="text-[11px] text-slate-400 font-bold">Inspect →</span>
+          <div class="pt-2.5 border-t border-white/10">
+            <span class="text-[11px] font-bold text-cyan-300">${escapeHtml(fruit.nutrientBoost || '')}</span>
           </div>
         `;
-        card.addEventListener('click', () => {
-          foodInput.value = alt.name;
-          handleSearch();
-        });
         alternativesGrid.appendChild(card);
       });
     }
 
-    // History
     function saveToHistory(query, score) {
       scanHistory = scanHistory.filter(item => item.query.toLowerCase() !== query.toLowerCase());
       scanHistory.unshift({ query, score });
